@@ -28,21 +28,6 @@ class _PlayVideoState extends State<PlayVideo> {
   }
 
   @override
-  void didUpdateWidget(PlayVideo oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.asset != oldWidget.asset) {
-      _controller = VideoPlayerController.asset(widget.asset)
-        ..initialize().then((_) {
-          setState(() {
-            _controller
-              ..play()
-              ..setLooping(true);
-          });
-        });
-    }
-  }
-
-  @override
   void dispose() {
     _controller.dispose();
     super.dispose();

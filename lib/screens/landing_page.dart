@@ -17,7 +17,7 @@ class LandingPage extends StatelessWidget {
           ? ValueListenableBuilder(
               valueListenable: VideoController(),
               builder: (context, value, child) =>
-                  PlayVideo(asset: VideoController().value))
+                  PlayVideo(asset: value))
           : Container(
               height: size.height,
               width: size.width,
@@ -32,7 +32,7 @@ class LandingPage extends StatelessWidget {
                         child: ValueListenableBuilder(
                             valueListenable: VideoController(),
                             builder: (context, value, child) =>
-                                PlayVideo(asset: VideoController().value)),
+                                PlayVideo(asset: value)),
                       ),
                     ),
                   ),

@@ -3,7 +3,7 @@ import './screens/landing_page.dart';
 // import 'package:flutter_animate/flutter_animate.dart';
 
 void main() {
-  runApp(DesiredCar());
+  runApp(const DesiredCar());
 }
 
 class DesiredCar extends StatelessWidget {
@@ -16,7 +16,7 @@ class DesiredCar extends StatelessWidget {
       title: "Desired Car",
       theme: ThemeData.dark().copyWith(
         useMaterial3: true,
-        colorScheme: ColorScheme.highContrastDark(),
+        colorScheme:const  ColorScheme.highContrastDark(),
       ),
       home: LandingPage(),
     );
