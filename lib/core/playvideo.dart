@@ -17,8 +17,10 @@ class _PlayVideoState extends State<PlayVideo> {
   @override
   void initState() {
     super.initState();
+    print("initializing the controller");
     _controller = VideoPlayerController.asset(widget.asset)
       ..initialize().then((_) {
+        print("controller initialized");
         setState(() {
           _controller
             ..play()
@@ -36,7 +38,9 @@ class _PlayVideoState extends State<PlayVideo> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return video;
+    return _controller.value.isInitialized
+        ? video
+        : Center(child: CircularProgressIndicator());
   }
 }
 

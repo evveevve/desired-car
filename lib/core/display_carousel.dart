@@ -24,15 +24,18 @@ class DisplaySliderState extends State<DisplaySlider> {
           buildImage(videoAssets[index]),
       options: CarouselOptions(
           height: 170,
-          viewportFraction: MediaQuery.of(context).size.width > 500 ? 0.4 : 0.7,
+          viewportFraction: MediaQuery.of(context).size.width > 500 ? 0.3 : 0.7,
           autoPlay: true,
           enlargeCenterPage: true,
           autoPlayInterval: const Duration(seconds: 20),
+          initialPage: VideoController().paths.indexOf(VideoController().value),
           onPageChanged: (index, reason) {
-            String name =
-                videoAssets[index].split('/')[2].replaceAll('.jpg', '');
-            VideoController().setPath(name);
-            ColorController().setColor(name);
+            VideoController().setPath(index);
+            ColorController().setColor(index);
+            // String name =
+            //     videoAssets[index].split('/')[2].replaceAll('.jpg', '');
+            // VideoController().setPath(name);
+            // ColorController().setColor(name);
           }),
     );
   }

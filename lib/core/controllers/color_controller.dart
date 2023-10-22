@@ -7,21 +7,22 @@ class ColorController extends ValueNotifier<Color> {
   factory ColorController() => _shared;
 
   // Color color;
-  void setColor(String name) {
-    switch (name) {
-      case "mclaren-1":
+  void setColor(int index) {
+    print('Setting the name');
+    switch (index) {
+      case 0:
         value = const Color.fromRGBO(30, 170, 193, 1);
         break;
-      case "mclaren-2":
+      case 1:
         value = const Color.fromRGBO(158, 240, 44, 1);
         break;
-      case "mclaren-3":
+      case 2:
         value = const Color.fromRGBO(228, 3, 31, 1);
         break;
-      case "mclaren-4":
+      case 3:
         value = const Color.fromARGB(255, 245, 57, 20);
         break;
-      case "mclaren-5":
+      case 4:
         value = const Color.fromRGBO(187, 183, 196, 1);
         break;
       default:
@@ -29,6 +30,29 @@ class ColorController extends ValueNotifier<Color> {
     }
     notifyListeners();
   }
+  // void setColor(String name) {
+  //   print('Setting the name');
+  //   switch (name) {
+  //     case "mclaren-1":
+  //       value = const Color.fromRGBO(30, 170, 193, 1);
+  //       break;
+  //     case "mclaren-2":
+  //       value = const Color.fromRGBO(158, 240, 44, 1);
+  //       break;
+  //     case "mclaren-3":
+  //       value = const Color.fromRGBO(228, 3, 31, 1);
+  //       break;
+  //     case "mclaren-4":
+  //       value = const Color.fromARGB(255, 245, 57, 20);
+  //       break;
+  //     case "mclaren-5":
+  //       value = const Color.fromRGBO(187, 183, 196, 1);
+  //       break;
+  //     default:
+  //       value = const Color.fromRGBO(30, 170, 193, 1);
+  //   }
+  //   notifyListeners();
+  // }
 
   Color getColor() => value;
 }
