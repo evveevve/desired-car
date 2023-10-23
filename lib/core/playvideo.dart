@@ -1,46 +1,68 @@
+import 'package:desired_car/core/controllers/video_controller.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 
 class PlayVideo extends StatefulWidget {
-  const PlayVideo({super.key, required this.asset});
-  final String asset;
+  const PlayVideo({super.key, required this.index});
+  final int index;
   @override
   State<PlayVideo> createState() => _PlayVideoState();
 }
 
 class _PlayVideoState extends State<PlayVideo> {
-  late VideoPlayerController _controller;
+  VideoPlayerController? _controller;
 
   late Size size;
-  late VideoPlayer video = VideoPlayer(_controller);
-
+  late VideoPlayer video = VideoPlayer(_controller!);
+  late String asset;
   @override
   void initState() {
     super.initState();
-    print("initializing the controller");
-    _controller = VideoPlayerController.asset(widget.asset)
-      ..initialize().then((_) {
-        print("controller initialized");
-        setState(() {
-          _controller
-            ..play()
-            ..setLooping(true);
-        });
-      });
+    updatePath();
   }
 
+  void updatePath() {
+    asset = VideoController().paths.elementAt(widget.index);
+    if (_controller != null) _controller?.dispose();
+
+    print("initializing the controller");
+    _controller = VideoPlayerController.asset(asset)
+      ..initialize().then((_) {
+        print("controller initialized");
+        if (mounted) {
+          setState(() {
+            _controller!
+              ..play()
+              ..setLooping(true);
+          });
+        }
+      });
+  }
+  @override
+  void didUpdateWidget(PlayVideo oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.index != oldWidget.index) {
+      // If the index has changed, update the video path.
+      updatePath();
+    }
+  }
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return _controller.value.isInitialized
+    // if (
+    //     asset != VideoController().paths.elementAt(widget.index)) {
+    //   _controller.dispose();
+    //   updatePath();
+    // }
+    return _controller!.value.isInitialized
         ? video
-        : Center(child: CircularProgressIndicator());
+        : CircularProgressIndicator();
   }
 }
 

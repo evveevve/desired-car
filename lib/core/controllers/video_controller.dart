@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-class VideoController extends ValueNotifier<String> {
-  VideoController.initialize(String path) : super(path);
-  static final _shared =
-      VideoController.initialize('assets/home_clips/mclaren-1.mp4');
+class VideoController extends ValueNotifier<int> {
+  VideoController.initialize(int index) : super(index);
+  static final _shared = VideoController.initialize(0);
   factory VideoController() => _shared;
   final List<String> paths = [
     'assets/home_clips/mclaren-1.mp4',
@@ -13,11 +12,13 @@ class VideoController extends ValueNotifier<String> {
     'assets/home_clips/mclaren-5.mp4',
   ];
 
-  void setPath(int index) {
+  void setPath(int indx) {
     print("setting the name");
-    value = paths[index];
+    value = indx;
     notifyListeners();
   }
+
+  get getValue => value;
 // void setPath(String name) {
   //   print("setting the name");
   //   switch (name) {

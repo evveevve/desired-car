@@ -19,7 +19,7 @@ class LandingPage extends StatelessWidget {
               builder: (context, value, child) {
                 print("path provided");
                 return Transform.scale(
-                    scale: 1, child: PlayVideo(asset: value));
+                    scale: 1, child: PlayVideo(index: value));
               })
           : Container(
               height: size.height,
@@ -38,7 +38,7 @@ class LandingPage extends StatelessWidget {
                               valueListenable: VideoController(),
                               builder: (context, value, child) {
                                 print("path provided");
-                                return PlayVideo(asset: value);
+                                return PlayVideo(index: value);
                               })),
                     ),
                   ),

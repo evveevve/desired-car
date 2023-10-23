@@ -28,7 +28,7 @@ class DisplaySliderState extends State<DisplaySlider> {
           autoPlay: true,
           enlargeCenterPage: true,
           autoPlayInterval: const Duration(seconds: 20),
-          initialPage: VideoController().paths.indexOf(VideoController().value),
+          initialPage: VideoController().value,
           onPageChanged: (index, reason) {
             VideoController().setPath(index);
             ColorController().setColor(index);
