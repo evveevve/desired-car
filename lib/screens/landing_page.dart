@@ -1,17 +1,32 @@
 import 'package:desired_car/core/controllers/color_controller.dart';
 import 'package:desired_car/core/playvideo.dart';
+import 'package:desired_car/helper_functions/format_brands.dart';
+import 'package:desired_car/screens/brands_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../core/display_carousel.dart';
+import '../data/data.dart';
 import '../core/controllers/video_controller.dart';
 
-class LandingPage extends StatelessWidget {
-  LandingPage({super.key});
-  final colors = [Colors.black, Colors.blue.shade50, Colors.pink.shade50];
+class LandingPage extends StatefulWidget {
+ const  LandingPage({super.key});
+  @override
+  LandingPageState createState() => LandingPageState();
+}
+
+class LandingPageState extends State<LandingPage> {
+  // final colors = [Colors.black, Colors.blue.shade50, Colors.pink.shade50];
+  // ButtonStyle? buttonStyle;
+  @override
+  void initState() {
+    formatBrands(brands == null);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: size.width > 700
           ? ValueListenableBuilder(
@@ -29,7 +44,7 @@ class LandingPage extends StatelessWidget {
                 children: [
                   Transform.scale(
                     scale:
-                        //  (10-size.width*0.01).abs(),
+                        //  (size.width*0.012-size.width*0.01).abs(),
                         2.5,
                     child: Center(
                       child: AspectRatio(
@@ -98,12 +113,56 @@ class LandingPage extends StatelessWidget {
                                 top: size.height * 0.1,
                                 left: size.width * 0.05,
                                 right: size.width * 0.05),
-                            child: Text(
+                            child: const Text(
                               "Unlocking the Secrets to Your Dream Car.",
                               style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
                                 color: Color.fromARGB(197, 220, 220, 220),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: size.height * 0.05,
+                                left: size.width * 0.05,
+                                right: size.width * 0.05),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: ValueListenableBuilder(
+                                valueListenable: ColorController(),
+                                builder: (context, color, child) =>
+                                    OutlinedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).push(PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                       const    BrandsPage(),
+                                    ));
+                                  },
+                                  // onHover: (value) {
+                                  //   value
+                                  //       ? setState(() {
+                                  //           buttonStyle = ButtonStyle().copyWith(
+                                  //               backgroundColor:
+                                  //                   MaterialStatePropertyAll(
+                                  //                       color
+                                  //                           .withOpacity(0.1)));
+                                  //         })
+                                  //       : setState(() => buttonStyle = null);
+                                  // },
+                                  style: const ButtonStyle().copyWith(
+                                      backgroundColor: MaterialStatePropertyAll(
+                                          color.withOpacity(0.18))),
+                                  child: const Text(
+                                    "Explore",
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(197, 220, 220, 220),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -121,7 +180,7 @@ class LandingPage extends StatelessWidget {
                             begin: Alignment.bottomCenter,
                             end: Alignment.topCenter,
                             colors: [
-                              color,
+                              color.withOpacity(0.7),
                               Colors.transparent,
                             ],
                           ),

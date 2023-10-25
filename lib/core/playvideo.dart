@@ -23,7 +23,11 @@ class _PlayVideoState extends State<PlayVideo> {
 
   void updatePath() {
     asset = VideoController().paths.elementAt(widget.index);
-    if (_controller != null) _controller?.dispose();
+    if (_controller != null) {
+      if (_controller!.value.isPlaying) _controller!.pause();
+
+      _controller = null;
+    }
 
     print("initializing the controller");
     _controller = VideoPlayerController.asset(asset)
@@ -38,6 +42,7 @@ class _PlayVideoState extends State<PlayVideo> {
         }
       });
   }
+
   @override
   void didUpdateWidget(PlayVideo oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -46,9 +51,15 @@ class _PlayVideoState extends State<PlayVideo> {
       updatePath();
     }
   }
+
   @override
   void dispose() {
-    _controller?.dispose();
+    if (_controller != null) {
+      if (_controller!.value.isPlaying) {
+        _controller!.pause();
+      }
+      _controller?.dispose();
+    }
     super.dispose();
   }
 
