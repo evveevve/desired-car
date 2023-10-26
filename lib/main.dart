@@ -6,7 +6,6 @@ import 'helper_functions/format_brands.dart';
 // import 'package:flutter_animate/flutter_animate.dart';
 
 void main() {
-  formatBrands(brands == null);
   runApp(const DesiredCar());
 }
 

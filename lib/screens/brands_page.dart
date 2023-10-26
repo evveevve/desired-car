@@ -1,13 +1,18 @@
-import 'package:desired_car/helper_functions/format_products.dart';
+import 'package:desired_car/helper_functions/format_brands.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../data/data.dart';
 import 'products_page.dart';
 import 'package:desired_car/core/controllers/color_controller.dart';
 
-class BrandsPage extends StatelessWidget {
+class BrandsPage extends StatefulWidget {
   const BrandsPage({super.key});
 
+  @override
+  State<BrandsPage> createState() => _BrandsPageState();
+}
+
+class _BrandsPageState extends State<BrandsPage> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -58,108 +63,131 @@ class BrandsPage extends StatelessWidget {
               ]),
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Stack(
-            // crossAxisAlignment: CrossAxisAlignment.start,
-            // mainAxisSize: MainAxisSize.min,
-            children: [
-              // const SizedBox(
-              //   height: 10,
-              // ),
-              // Container(
-              //   padding: const EdgeInsets.symmetric(
-              //     vertical: 5,
-              //     horizontal: 10,
-              //   ),
-              //   decoration: BoxDecoration(
-              //       color: color.withOpacity(0.2),
-              //       borderRadius: BorderRadius.circular(30)),
-              //   child: const Text(
-              //     "Brands!",
-              //     style: TextStyle(
-              //       fontSize: 27,
-              //       fontWeight: FontWeight.w500,
-              //     ),
-              //   ),
-              // ),
-              // const SizedBox(
-              //   height: 20,
-              // ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemBuilder: (context, index) => Center(
-                  child: InkWell(
-                    onTap: () {
-                      formatProducts(brands![index].reference);
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              ProductsPage(brandName: brands![index].name)));
-                    },
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 20,
-                          ),
-                          height: 100,
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              
-                              //     strokeAlign: BorderSide.strokeAlignInside),
-                              borderRadius: BorderRadius.circular(20),
-                              color: color.withOpacity(0.1)),
-                          child: Image.network(brands![index].imagePath)
-                              .animate()
-                              .scaleXY(duration: const Duration(seconds: 1)),
-                        ),
-                        Text(
-                          brands![index].name,
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              shadows: [
-                                Shadow(color: Colors.black, blurRadius: 5),
-                                Shadow(color: Colors.black, blurRadius: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: FutureBuilder(
+              future: formatBrands(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: Transform.scale(
+                        scale: 2,
+                        child: CircularProgressIndicator.adaptive(
+                          backgroundColor: color.withOpacity(0.3),
+                        ).animate().shimmer()),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text(snapshot.error.toString()),
+                  );
+                } else {
+                  return Stack(
+                    // crossAxisAlignment: CrossAxisAlignment.start,
+                    // mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+                      // Container(
+                      //   padding: const EdgeInsets.symmetric(
+                      //     vertical: 5,
+                      //     horizontal: 10,
+                      //   ),
+                      //   decoration: BoxDecoration(
+                      //       color: color.withOpacity(0.2),
+                      //       borderRadius: BorderRadius.circular(30)),
+                      //   child: const Text(
+                      //     "Brands!",
+                      //     style: TextStyle(
+                      //       fontSize: 27,
+                      //       fontWeight: FontWeight.w500,
+                      //     ),
+                      //   ),
+                      // ),
+                      // const SizedBox(
+                      //   height: 20,
+                      // ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) => Center(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ProductsPage(
+                                      url: brands![index].reference,
+                                      brandName: brands![index].name)));
+                            },
+                            child: Row(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: 20,
+                                  ),
+                                  height: 100,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+
+                                      //     strokeAlign: BorderSide.strokeAlignInside),
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: color.withOpacity(0.1)),
+                                  child: Image.network(brands![index].imagePath)
+                                      .animate()
+                                      .scaleXY(
+                                          duration: const Duration(seconds: 1)),
+                                ),
+                                Text(
+                                  brands![index].name,
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      shadows: [
+                                        Shadow(
+                                            color: Colors.black, blurRadius: 5),
+                                        Shadow(
+                                            color: Colors.black, blurRadius: 5),
+                                      ],
+                                      fontWeight: FontWeight.bold),
+                                ).animate().slideX(
+                                    begin: 1,
+                                    duration: const Duration(seconds: 1),
+                                    delay: const Duration(milliseconds: 500))
                               ],
-                              fontWeight: FontWeight.bold),
-                        ).animate().slideX(
-                            begin: 1,
-                            duration: Duration(seconds: 1),
-                            delay: Duration(milliseconds: 500))
-                      ],
-                    ),
-                  ),
-                ).animate().then().slideY(begin: 1).then(),
-                itemCount: brands?.length ?? 0,
-                physics: const ScrollPhysics(),
-              ),
-              Positioned(
-                top: 10,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 5,
-                    horizontal: 10,
-                  ),
-                  decoration: BoxDecoration(
-                      color: color.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: const Text(
-                    "Brands!",
-                    style: TextStyle(
-                      fontSize: 27,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                )
-                    .animate()
-                    .slideY(begin: 1, duration: Duration(milliseconds: 500))
-                    .then()
-                    .shimmer(),
-              ),
-            ],
-          ),
-        ),
+                            ),
+                          ),
+                        ).animate().then().slideY(begin: 1).then(),
+                        itemCount: brands?.length ?? 0,
+                        physics: const ScrollPhysics(),
+                      ),
+                      Positioned(
+                        top: 10,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 5,
+                            horizontal: 10,
+                          ),
+                          decoration: BoxDecoration(
+                              color: color.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(30)),
+                          child: const Text(
+                            "Brands!",
+                            style: TextStyle(
+                              fontSize: 27,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        )
+                            .animate()
+                            .slideY(
+                                begin: 1,
+                                duration: const Duration(milliseconds: 500))
+                            .then()
+                            .shimmer(),
+                      ),
+                    ],
+                  );
+                }
+              },
+            )),
       ),
     );
   }

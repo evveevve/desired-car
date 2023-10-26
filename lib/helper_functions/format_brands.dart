@@ -2,8 +2,10 @@ import 'package:desired_car/data/data.dart';
 import 'package:desired_car/scrapper/scrap_brands.dart';
 import 'package:desired_car/model/brand_model.dart';
 
-void formatBrands(final bool flag) async {
-  if (flag) {
+Future<List<Brand>?> formatBrands() async {
+  if (brands != null) {
+    return brands;
+  } else {
     final data = (await scrapBrands())['data'] as List<dynamic>;
     brands = data
         .map(
@@ -13,5 +15,6 @@ void formatBrands(final bool flag) async {
               reference: item['brandHref'] as String? ?? ""),
         )
         .toList();
+    return brands;
   }
 }

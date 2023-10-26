@@ -1,11 +1,9 @@
 import 'package:desired_car/core/controllers/color_controller.dart';
 import 'package:desired_car/core/playvideo.dart';
-import 'package:desired_car/helper_functions/format_brands.dart';
 import 'package:desired_car/screens/brands_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../core/display_carousel.dart';
-import '../data/data.dart';
 import '../core/controllers/video_controller.dart';
 
 class LandingPage extends StatefulWidget {
@@ -19,7 +17,6 @@ class LandingPageState extends State<LandingPage> {
   // ButtonStyle? buttonStyle;
   @override
   void initState() {
-    formatBrands(brands == null);
     super.initState();
   }
 
